@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Utk14007/DevOps.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'docker run -d -p 8080:8080 --name node-container -v $PWD:/app node:latest npm start'
+            }
+        }
+    }
+}
